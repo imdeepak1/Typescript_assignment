@@ -1,0 +1,14 @@
+import express, { Router } from "express";
+const router = express.Router();
+import controller from "../Controller/controller";
+import auth from "../middleware/auth";
+router.post("/newUser/signUp", controller.signup);
+router.post("/user/login", controller.login);
+router.get("/getAllUsers", controller.getAllUser);
+router.get("/user/deatils", controller.getUserDetails);
+router.delete("/user/delete", auth, controller.deleteUser);
+router.put("/user/update", auth, controller.updateUser);
+router.post("/user/deactivate", auth, controller.deactivate);
+router.post("/user/reactivate", auth, controller.reactivate);
+router.use("*", controller.errs);
+export default router;
