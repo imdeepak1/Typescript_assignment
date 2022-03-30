@@ -1,12 +1,12 @@
 {
-  "name": "pppp",
+  "name": "typescript-task",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "type": "module",
-        "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Deepak Sharma",
   "license": "ISC",
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -22,8 +22,16 @@
     "md5": "^2.3.0",
     "mongoose": "^5.13.14"
   },
-  "description": "",
   "devDependencies": {
     "ts-node": "^10.7.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imdeepaksharma01/Typescript_assignment.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imdeepaksharma01/Typescript_assignment/issues"
+  },
+  "homepage": "https://github.com/imdeepaksharma01/Typescript_assignment#readme",
+  "description": ""
 }

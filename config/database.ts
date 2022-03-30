@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import {config} from 'dotenv'
+config();
 export default function connection() {
   mongoose
     .connect('mongodb+srv://imdeepaksharma:imdeepak@cluster0.1xi9s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {

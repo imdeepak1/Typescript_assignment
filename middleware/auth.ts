@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../model/user";
+import {config} from 'dotenv'
+config();
 import { Request, NextFunction, Response, request } from "express";
 
 async function auth(req: Request, res: Response, next: NextFunction){
@@ -11,8 +13,7 @@ async function auth(req: Request, res: Response, next: NextFunction){
   }
   try {
     const decoded:any = await jwt.verify(token, "secret");
-    await User.findOne({_id:decoded.user_id})
-    req.query = decoded;
+    req.body._id = decoded;
   } catch (err) {
     return res.status(401).send("Invalid Token");
   }

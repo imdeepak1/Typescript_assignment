@@ -39,14 +39,9 @@ async function signup(req: Request, res: Response, next: NextFunction) {
 
 async function login(req: Request, res: Response, next: NextFunction) {
   try {
-    const token: any =
-      req.body.token || req.query.token || req.headers["x-access-token"];
-    if (!token) {
-      res.status(400).send("A token is required for authentication");
-    }
-    const decoded: any = jwt.verify(token, "secret");
-    await User.findOne({ _id: decoded.user_id });
-    res.status(200).send("User Successfully Login");
+    const user_id = req.body._id.user_id;
+    const user:any = await User.findOne({ _id: user_id});
+    res.status(200).send(`User login Successfully : \n ${user}`);
   } catch (err) {
     return res.status(401).send("Invalid Token");
   }
@@ -54,18 +49,15 @@ async function login(req: Request, res: Response, next: NextFunction) {
 
 async function getAllUser(req: Request, res: Response, next: NextFunction) {
   const user = await User.find();
-  res.status(200).json(user);
+  res.status(200).send(`These All Are Users : \n ${user}`);
 }
+
+
 async function getUserDetails(req: Request, res: Response, next: NextFunction) {
   try {
-    const token: any =
-      req.body.token || req.query.token || req.headers["x-access-token"];
-    if (!token) {
-      res.status(400).send("Token Required");
-    }
-    const decoded: any = jwt.verify(token, "secret");
-    const detail: any = await User.findOne({ _id: decoded.user_id });
-    res.status(200).json(detail);
+    const user_id = req.body._id.user_id;
+    const user:any = await User.findOne({ _id: user_id});
+    res.status(200).send(user);
   } catch (err) {
     return res.status(401).send("Invalid Token");
   }
@@ -73,13 +65,9 @@ async function getUserDetails(req: Request, res: Response, next: NextFunction) {
 
 async function deleteUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const { email, password } = req.body;
-    if (!(email && password)) {
-      res.status(400).send("All input is required");
-    }
-    const user = await User.findOne({ email });
-    await User.findByIdAndRemove(user);
-    res.end("User Delete Successfully");
+    const user_id = req.body._id.user_id;
+    const user:any = await User.findByIdAndRemove({_id:user_id});
+    res.end(`This User Account Delete Successfully : \n ${user}`);
   } catch (err) {
     return res.status(401).send("Invalid Details");
   }
@@ -105,28 +93,22 @@ async function updateUser(req: Request, res: Response, next: NextFunction) {
 }
 async function deactivate(req: any, res: any) {
   try {
-    const { email, password } = req.body;
-    if (!(email && password)) {
-      res.status(400).send("All input is required");
-    }
-    const users: any = await User.findOne({ email });
-    users.status = "Deactive";
-    users.save();
-    res.json("User Deactivate successfully");
+    const user_id = req.body._id.user_id;
+    const user:any = await User.findOne({ _id: user_id});
+    user.status = "Deactive";
+    user.save();
+    res.send(`User Deactivate successfully : \n ${user}`);
   } catch (err) {
     console.log(err);
   }
 }
 async function reactivate(req: any, res: any) {
   try {
-    const { email, password } = req.body;
-    if (!(email && password)) {
-      res.status(400).send("All input is required");
-    }
-    const users: any = await User.findOne({ email });
-    users.status = "Active";
-    users.save();
-    res.json("User reactivate successfully");
+    const user_id = req.body._id.user_id;
+    const user:any = await User.findOne({ _id: user_id});
+    user.status = "Active";
+    user.save();
+    res.send(`User Reactivate successfully : \n ${user}`);
   } catch (err) {
     console.log(err);
   }
