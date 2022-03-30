@@ -10,8 +10,8 @@ app.use(express.json());
 
 async function signup(req: Request, res: Response, next: NextFunction) {
   try {
-    const { first_name, last_name, email, password } = req.body;
-    if (!(email && password && first_name && last_name)) {
+    const { firstName, lastName, email, password } = req.body;
+    if (!(email && password && firstName && lastName)) {
       res.status(400).send("All input is required");
     }
     const oldUser = await User.findOne({ email });
@@ -21,17 +21,16 @@ async function signup(req: Request, res: Response, next: NextFunction) {
     }
     const encryptedPassword = md5(password);
     const user = await User.create({
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email: email.toLowerCase(),
       password: encryptedPassword,
     });
-    const token = jwt.sign({ user_id: user._id, email }, "secret", {
+    const token = jwt.sign({ userId: user._id, email }, "secret", {
       expiresIn: "1y",
     });
     user.token = token;
-    res.status(201).json(user);
-    console.log("User Sign-up Process Done :)");
+    res.status(201).send(`User Sign-up Process Done :) \n ${user}`);
   } catch (err) {
     console.log(err);
   }
@@ -39,8 +38,8 @@ async function signup(req: Request, res: Response, next: NextFunction) {
 
 async function login(req: Request, res: Response, next: NextFunction) {
   try {
-    const user_id = req.body._id.user_id;
-    const user:any = await User.findOne({ _id: user_id});
+    const userId = req.body._id.userId;
+    const user: any = await User.findOne({ _id: userId });
     res.status(200).send(`User login Successfully : \n ${user}`);
   } catch (err) {
     return res.status(401).send("Invalid Token");
@@ -52,11 +51,10 @@ async function getAllUser(req: Request, res: Response, next: NextFunction) {
   res.status(200).send(`These All Are Users : \n ${user}`);
 }
 
-
 async function getUserDetails(req: Request, res: Response, next: NextFunction) {
   try {
-    const user_id = req.body._id.user_id;
-    const user:any = await User.findOne({ _id: user_id});
+    const userId = req.body._id.userId;
+    const user: any = await User.findOne({ _id: userId });
     res.status(200).send(user);
   } catch (err) {
     return res.status(401).send("Invalid Token");
@@ -65,8 +63,8 @@ async function getUserDetails(req: Request, res: Response, next: NextFunction) {
 
 async function deleteUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const user_id = req.body._id.user_id;
-    const user:any = await User.findByIdAndRemove({_id:user_id});
+    const userId = req.body._id.userId;
+    const user: any = await User.findByIdAndRemove({ _id: userId });
     res.end(`This User Account Delete Successfully : \n ${user}`);
   } catch (err) {
     return res.status(401).send("Invalid Details");
@@ -74,15 +72,15 @@ async function deleteUser(req: Request, res: Response, next: NextFunction) {
 }
 async function updateUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const { first_name, last_name, email, password } = req.body;
-    if (!(email && password && first_name && last_name)) {
+    const { firstName, lastName, email, password } = req.body;
+    if (!(email && password && firstName && lastName)) {
       res.status(400).send("All input is required");
     }
     const u: any = await User.findOne({ email });
     const encryptedPassword = md5(password);
     const user = await u.updateOne({
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       password: encryptedPassword,
     });
@@ -93,8 +91,8 @@ async function updateUser(req: Request, res: Response, next: NextFunction) {
 }
 async function deactivate(req: any, res: any) {
   try {
-    const user_id = req.body._id.user_id;
-    const user:any = await User.findOne({ _id: user_id});
+    const userId = req.body._id.userId;
+    const user: any = await User.findOne({ _id: userId });
     user.status = "Deactive";
     user.save();
     res.send(`User Deactivate successfully : \n ${user}`);
@@ -104,8 +102,8 @@ async function deactivate(req: any, res: any) {
 }
 async function reactivate(req: any, res: any) {
   try {
-    const user_id = req.body._id.user_id;
-    const user:any = await User.findOne({ _id: user_id});
+    const userId = req.body._id.userId;
+    const user: any = await User.findOne({ _id: userId });
     user.status = "Active";
     user.save();
     res.send(`User Reactivate successfully : \n ${user}`);

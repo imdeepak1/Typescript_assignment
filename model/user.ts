@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
 interface User {
-  first_name: String;
-  last_name: String;
+  firstName: String;
+  lastName: String;
   email: String;
   password: String;
   status: String;
@@ -10,8 +10,8 @@ interface User {
 }
 
 const userSchema = new Schema<User>({
-  first_name: { type: String,require: true, default: null },
-  last_name: { type: String,require: true, default: null },
+  firstName: { type: String,require: true, default: null },
+  lastName: { type: String,require: true, default: null },
   email: { type: String, require: true,unique: true },
   password: { type: String,require: true},
   status: {type:String ,require: true, default: "Active"},
