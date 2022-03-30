@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 import {config} from 'dotenv'
 config();
 export default function connection() {
+  const connectionMongo = String(process.env.MONGO_URI)
   mongoose
-    .connect('mongodb+srv://imdeepaksharma:imdeepak@cluster0.1xi9s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+    .connect(connectionMongo, {
       useNewUrlParser: true,
       useUnifiedTopology: true, //this MongoDB driver will try to find a server to send any given operation
       useCreateIndex: true,

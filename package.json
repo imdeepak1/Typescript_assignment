@@ -33,5 +33,10 @@
     "url": "https://github.com/imdeepaksharma01/Typescript_assignment/issues"
   },
   "homepage": "https://github.com/imdeepaksharma01/Typescript_assignment#readme",
-  "description": ""
+  "description": "Simple API for User Signup, Login, Get user details, delete, update, deactivate or reactivate profile",
+  "keywords": [
+    "Node.js",
+    "mongodb",
+    "jwtToken"
+  ]
 }

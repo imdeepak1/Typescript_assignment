@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 const router = express.Router();
-import controller from "../Controller/controller";
-import auth from "../middleware/auth";
+import controller from "../Controller/user.controller";
+import auth from "../middleware/user.auth";
 router.post("/newUser/signUp", controller.signup);
 router.post("/user/login",auth, controller.login);
 router.get("/AllUsers", controller.getAllUser);

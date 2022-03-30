@@ -1,9 +1,9 @@
-import connection from "../config/database";
+import connection from "../database/mongo.db";
 import express from "express";
 import { Request, NextFunction, Response } from "express";
 import md5 from "md5";
 import jwt from "jsonwebtoken";
-import User from "../model/user";
+import User from "../model/user.model";
 export const app = express();
 connection();
 app.use(express.json());
