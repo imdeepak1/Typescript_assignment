@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-import {config} from 'dotenv'
-config();
 export default function connection() {
-  const connectionMongo = String(process.env.MONGO_URI)
+  const connectionMongo = String(process.env.MONGO_URI);
   mongoose
     .connect(connectionMongo, {
       useNewUrlParser: true,
@@ -19,4 +17,3 @@ export default function connection() {
       process.exit(1);
     });
 }
-
