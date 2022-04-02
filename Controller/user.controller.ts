@@ -1,21 +1,19 @@
-import connection from "../database/mongo.db";
 import express from "express";
 import { Request, NextFunction, Response } from "express";
 import md5 from "md5";
 import jwt from "jsonwebtoken";
 import User from "../model/user.model";
 export const app = express();
-connection();
 app.use(express.json());
 
 async function signup(req: Request, res: Response, next: NextFunction) {
   try {
     const { firstName, lastName, email, password } = req.body;
     if (!(email && password && firstName && lastName)) {
-      res.status(400).send("All input is required");
+      // res.status(400)json("All input is required");
+      throw new Error("All input is required");
     }
     const oldUser = await User.findOne({ email });
-
     if (oldUser) {
       return res.status(409).send("User Already Exist. Please Login");
     }
@@ -33,7 +31,9 @@ async function signup(req: Request, res: Response, next: NextFunction) {
     res.status(201).send(`User Sign-up Process Done :) \n ${user}`);
   } catch (err) {
     console.log(err);
+    next(err);
   }
+  
 }
 
 async function login(req: Request, res: Response, next: NextFunction) {
@@ -92,10 +92,8 @@ async function updateUser(req: Request, res: Response, next: NextFunction) {
 async function deactivate(req: any, res: any) {
   try {
     const userId = req.body._id.userId;
-    const user: any = await User.findOne({ _id: userId });
-    user.status = "Deactive";
-    user.save();
-    res.send(`User Deactivate successfully : \n ${user}`);
+    await User.updateOne({ _id: userId }, { $set: { status: "Deactive" } });
+    res.send("User Deactivate successfully");
   } catch (err) {
     console.log(err);
   }
